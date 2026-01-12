@@ -10,6 +10,8 @@ int RED2 = 8; //opposite order
 int BROWN1 = 2; //opposite order
 int BROWN2 = 7; //opposite order
 
+int throttlePin = 5;
+
 Encoder xAxis(RED1, RED2);
 Encoder yAxis(BROWN1, BROWN2);
 Encoder spinner(ORAN1, ORAN2);
@@ -19,27 +21,57 @@ Encoder button(WHITE1, WHITE2);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  pinMode(throttlePin, OUTPUT);
 }
+
+float throttlef = 0.0;
 long positionX = -999;
 long positionY = -999;
+long posSpinner = -999;
+long throttle = 0;
 
 void loop() {
-  long newX, newY;
+  long newX, newY, newSpinner;
   newX = xAxis.read();
   newY = yAxis.read();
-  if (newX != positionX || newY != positionY) {
+  newSpinner = spinner.read();
+  if (newX != positionX || newY != positionY || newSpinner != posSpinner) {
     Serial.print("X: ");
     Serial.print(newX);
     Serial.print(", Right: ");
     Serial.print(newY);
-    Serial.println();
+    // Serial.print(", Spinner: ");
+    // Serial.print(newSpinner);
+    //Serial.println();
     positionX = newX;
     positionY = newY;
+    posSpinner = newSpinner;
+    //throttlef = (newX / 68.0f) * 255.0f;
+    throttlef = (1.25f*newX+85.0f)/68.0f;
+    throttle = lroundf(throttlef);
+    if (throttle < 0){
+      throttle = 0;
+      Serial.print(" THROTTLE_ZERO ");
+    }
+    
+    analogWrite(throttlePin, throttle);
+    Serial.print(", Throttle:");
+    Serial.print(throttle);
+    Serial.println();
   }
   if (Serial.available()) {
     Serial.read();
-    Serial.println("Reset both knobs to zero");
+    Serial.println("Reset all to zero");
     xAxis.write(0);
     yAxis.write(0);
+    spinner.write(0);
   }
+  if (positionY > 0){
+    throttle = (positionY / 64) * 255;
+  }
+  else{
+    throttle = 0;
+  }
+  
+  
 }
