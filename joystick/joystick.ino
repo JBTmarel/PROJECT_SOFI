@@ -46,13 +46,16 @@ void loop() {
     positionX = newX;
     positionY = newY;
     posSpinner = newSpinner;
-    //throttlef = (newX / 68.0f) * 255.0f;
-    throttlef = (1.25f*newX+85.0f)/68.0f;
+    throttlef = (newX / 68.0f) * 255.0f;
+    //throttlef = (96.9f*newX+3814.8f)/68.0f;
     throttle = lroundf(throttlef);
     if (throttle < 0){
       throttle = 0;
       Serial.print(" THROTTLE_ZERO ");
     }
+    // else if (throttle > 255){
+    //   throttle = 255;
+    // }
     
     analogWrite(throttlePin, throttle);
     Serial.print(", Throttle:");
@@ -66,12 +69,4 @@ void loop() {
     yAxis.write(0);
     spinner.write(0);
   }
-  if (positionY > 0){
-    throttle = (positionY / 64) * 255;
-  }
-  else{
-    throttle = 0;
-  }
-  
-  
 }
