@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Interactive Unit Circle (Fixed size, scalable radius)</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display: grid; place-items: center; min-height: 100vh;
+    }
+    .wrap {
+      width: min(980px, 96vw);
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+    canvas {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.12);
+      background: Canvas;
+      touch-action: none;
+    }
+    .panel {
+      border-radius: 14px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.12);
+      padding: 14px 14px 10px;
+      background: Canvas;
+    }
+    .row { margin: 10px 0 14px; }
+    label { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+    input[type="range"] { width: 100%; }
+    .kv {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .kv div { padding: 8px 10px; border-radius: 12px; background: color-mix(in oklab, CanvasText 7%, Canvas); }
+    .kv .k { opacity: .8; }
+    .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    button {
+      border: 0; border-radius: 12px; padding: 10px 12px; cursor: pointer;
+      background: color-mix(in oklab, CanvasText 12%, Canvas);
+    }
+    button:hover { filter: brightness(1.03); }
+    .hint { opacity: .75; font-size: 13px; line-height: 1.35; margin-top: 8px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <canvas id="c" aria-label="Interactive unit circle canvas"></canvas>
+
+    <div class="panel">
+      <div class="row">
+        <label>
+          <span>Angle (degrees)</span>
+          <span class="mono" id="degOut">0°</span>
+        </label>
+        <input id="deg" type="range" min="0" max="360" step="0.1" value="0" />
+      </div>
+
+      <div class="row">
+        <label>
+          <span>Radius (numeric)</span>
+          <span class="mono" id="rOut">1.00</span>
+        </label>
+        <input id="rad" type="range" min="0.25" max="5" step="0.01" value="1" />
+      </div>
+
+      <div class="row">
+        <label><span>Show</span></label>
+        <div class="btns">
+          <button id="toggleGrid" type="button">Toggle grid</button>
+          <button id="snap" type="button">Snap to 15°</button>
+          <button id="reset" type="button">Reset</button>
+        </div>
+        <div class="hint">
+          The circle stays a fixed size on screen (unit circle). Changing <b>Radius</b> only scales the coordinate values
+          (x = r·cosθ, y = r·sinθ).
+        </div>
+      </div>
+
+      <div class="kv">
+        <div><div class="k">θ (radians)</div><div class="mono" id="radOut">0</div></div>
+        <div><div class="k">θ (degrees)</div><div class="mono" id="degOut2">0</div></div>
+
+        <div><div class="k">x = r·cos(θ)</div><div class="mono" id="xOut">1</div></div>
+        <div><div class="k">y = r·sin(θ)</div><div class="mono" id="yOut">0</div></div>
+
+        <div><div class="k">cos(θ)</div><div class="mono" id="cosOut">1</div></div>
+        <div><div class="k">sin(θ)</div><div class="mono" id="sinOut">0</div></div>
+
+        <div><div class="k">tan(θ)</div><div class="mono" id="tanOut">0</div></div>
+        <div><div class="k">r</div><div class="mono" id="rOut2">1</div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const canvas = document.getElementById("c");
+  const ctx = canvas.getContext("2d");
+
+  const degSlider = document.getElementById("deg");
+  const radSlider = document.getElementById("rad");
+
+  const degOut = document.getElementById("degOut");
+  const degOut2 = document.getElementById("degOut2");
+  const rOut = document.getElementById("rOut");
+  const rOut2 = document.getElementById("rOut2");
+
+  const radOut = document.getElementById("radOut");
+  const xOut = document.getElementById("xOut");
+  const yOut = document.getElementById("yOut");
+  const sinOut = document.getElementById("sinOut");
+  const cosOut = document.getElementById("cosOut");
+  const tanOut = document.getElementById("tanOut");
+
+  const btnGrid = document.getElementById("toggleGrid");
+  const btnSnap = document.getElementById("snap");
+  const btnReset = document.getElementById("reset");
+
+  // State
+  let theta = 0;          // radians
+  let r = 1;              // numeric radius (affects values, not the drawn circle)
+  let showGrid = true;
+  let snap15 = false;
+  let dragging = false;
+
+  function clampAngle(a) {
+    const twoPi = Math.PI * 2;
+    a = a % twoPi;
+    if (a < 0) a += twoPi;
+    return a;
+  }
+
+  function fmt(n) {
+    if (!Number.isFinite(n)) return "∞";
+    const v = Math.abs(n) < 1e-12 ? 0 : n; // avoid "-0"
+    return (Math.round(v * 10000) / 10000).toString();
+  }
+
+  function resizeCanvas() {
+    const cssSize = Math.floor(canvas.getBoundingClientRect().width);
+    const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+    canvas.width = cssSize * dpr;
+    canvas.height = cssSize * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS pixels
+  }
+
+  function getGeom() {
+    const w = canvas.getBoundingClientRect().width;
+    const h = canvas.getBoundingClientRect().height;
+    const cx = w / 2, cy = h / 2;
+    const rpx = Math.min(w, h) * 0.38; // FIXED on-screen unit circle size
+    return { w, h, cx, cy, rpx };
+  }
+
+  // Unit-circle point in pixels (always radius 1 visually)
+  function unitPoint(thetaVal) {
+    const { cx, cy, rpx } = getGeom();
+    return {
+      x: cx + rpx * Math.cos(thetaVal),
+      y: cy - rpx * Math.sin(thetaVal) // invert to match math coordinates
+    };
+  }
+
+  function pointerToAngle(e) {
+    const rect = canvas.getBoundingClientRect();
+    const px = (e.clientX ?? e.touches?.[0]?.clientX) - rect.left;
+    const py = (e.clientY ?? e.touches?.[0]?.clientY) - rect.top;
+
+    const { cx, cy } = getGeom();
+    const dx = px - cx;
+    const dy = cy - py; // invert to math y-up
+    let a = Math.atan2(dy, dx);
+    a = clampAngle(a);
+
+    if (snap15) {
+      const step = 15 * Math.PI / 180;
+      a = Math.round(a / step) * step;
+      a = clampAngle(a);
+    }
+    return a;
+  }
+
+  function syncUI() {
+    const deg = theta * 180 / Math.PI;
+
+    degSlider.value = deg.toString();
+    degOut.textContent = `${deg.toFixed(1)}°`;
+    degOut2.textContent = `${deg.toFixed(1)}°`;
+
+    radSlider.value = r.toString();
+    rOut.textContent = r.toFixed(2);
+    rOut2.textContent = r.toFixed(2);
+
+    const s = Math.sin(theta);
+    const c = Math.cos(theta);
+
+    const x = r * c;
+    const y = r * s;
+    const t = Math.abs(c) < 1e-12 ? Infinity : s / c;
+
+    radOut.textContent = theta.toFixed(4);
+
+    xOut.textContent = fmt(x);
+    yOut.textContent = fmt(y);
+    sinOut.textContent = fmt(s);
+    cosOut.textContent = fmt(c);
+    tanOut.textContent = Number.isFinite(t) ? fmt(t) : "∞";
+  }
+
+  function draw() {
+    const { w, h, cx, cy, rpx } = getGeom();
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid
+    if (showGrid) {
+      ctx.save();
+      ctx.globalAlpha = 0.25;
+      ctx.lineWidth = 1;
+      const step = Math.max(20, rpx / 5);
+      ctx.beginPath();
+      for (let x = cx % step; x <= w; x += step) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
+      for (let y = cy % step; y <= h; y += step) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
+      ctx.strokeStyle = "currentColor";
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Axes
+    ctx.save();
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.75;
+    ctx.strokeStyle = "currentColor";
+    ctx.beginPath();
+    ctx.moveTo(0, cy); ctx.lineTo(w, cy);
+    ctx.moveTo(cx, 0); ctx.lineTo(cx, h);
+    ctx.stroke();
+    ctx.restore();
+
+    // Unit circle (fixed size)
+    ctx.save();
+    ctx.lineWidth = 3;
+    ctx.globalAlpha = 0.9;
+    ctx.strokeStyle = "currentColor";
+    ctx.beginPath();
+    ctx.arc(cx, cy, rpx, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    // Angle arc (small arc near center)
+    ctx.save();
+    ctx.lineWidth = 3;
+    ctx.globalAlpha = 0.6;
+    ctx.strokeStyle = "currentColor";
+    const arcR = Math.max(22, rpx * 0.22);
+    ctx.beginPath();
+    // Draw CCW from 0 to theta in math sense => in canvas, use negative angle because y is inverted in our mapping
+    ctx.arc(cx, cy, arcR, 0, -theta, true);
+    ctx.stroke();
+    ctx.restore();
+
+    // Point and guides (on unit circle visually)
+    const p = unitPoint(theta);
+
+    // Projections to axes (unit projections)
+    ctx.save();
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.7;
+    ctx.strokeStyle = "currentColor";
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, cy);
+    ctx.moveTo(p.x, p.y); ctx.lineTo(cx, p.y);
+    ctx.stroke();
+    ctx.restore();
+
+    // Radius line (visual unit radius)
+    ctx.save();
+    ctx.lineWidth = 3;
+    ctx.globalAlpha = 0.85;
+    ctx.strokeStyle = "currentColor";
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    ctx.restore();
+
+    // Point marker
+    ctx.save();
+    ctx.fillStyle = "currentColor";
+    ctx.globalAlpha = 0.95;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Cardinal labels
+    ctx.save();
+    ctx.fillStyle = "currentColor";
+    ctx.globalAlpha = 0.8;
+    ctx.font = "14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const pad = 18;
+    ctx.fillText("0°", cx + rpx + pad, cy);
+    ctx.fillText("90°", cx, cy - rpx - pad);
+    ctx.fillText("180°", cx - rpx - pad, cy);
+    ctx.fillText("270°", cx, cy + rpx + pad);
+
+    // Coordinate label shows scaled numeric values
+    const x = r * Math.cos(theta);
+    const y = r * Math.sin(theta);
+    const lbl = `(${fmt(x)}, ${fmt(y)})`;
+    ctx.textAlign = "left";
+    ctx.fillText(lbl, p.x + 18, p.y - 18);
+    ctx.restore();
+
+    requestAnimationFrame(draw);
+  }
+
+  // UI events
+  degSlider.addEventListener("input", () => {
+    theta = clampAngle(parseFloat(degSlider.value) * Math.PI / 180);
+    if (snap15) {
+      const step = 15 * Math.PI / 180;
+      theta = Math.round(theta / step) * step;
+      theta = clampAngle(theta);
+    }
+    syncUI();
+  });
+
+  radSlider.addEventListener("input", () => {
+    r = parseFloat(radSlider.value);
+    syncUI();
+  });
+
+  btnGrid.addEventListener("click", () => {
+    showGrid = !showGrid;
+    btnGrid.textContent = showGrid ? "Toggle grid" : "Show grid";
+  });
+
+  btnSnap.addEventListener("click", () => {
+    snap15 = !snap15;
+    btnSnap.textContent = snap15 ? "Snap: ON (15°)" : "Snap to 15°";
+    if (snap15) {
+      const step = 15 * Math.PI / 180;
+      theta = Math.round(theta / step) * step;
+      theta = clampAngle(theta);
+      syncUI();
+    }
+  });
+
+  btnReset.addEventListener("click", () => {
+    theta = 0;
+    r = 1;
+    snap15 = false;
+    btnSnap.textContent = "Snap to 15°";
+    syncUI();
+  });
+
+  // Pointer drag
+  function onDown(e) {
+    dragging = true;
+    theta = pointerToAngle(e);
+    syncUI();
+    canvas.setPointerCapture?.(e.pointerId);
+    e.preventDefault();
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    theta = pointerToAngle(e);
+    syncUI();
+    e.preventDefault();
+  }
+  function onUp(e) { dragging = false; e.preventDefault(); }
+
+  canvas.addEventListener("pointerdown", onDown);
+  canvas.addEventListener("pointermove", onMove);
+  window.addEventListener("pointerup", onUp);
+
+  // Older iOS fallback
+  canvas.addEventListener("touchstart", (e) => { dragging = true; theta = pointerToAngle(e); syncUI(); e.preventDefault(); }, { passive:false });
+  canvas.addEventListener("touchmove",  (e) => { if (!dragging) return; theta = pointerToAngle(e); syncUI(); e.preventDefault(); }, { passive:false });
+  canvas.addEventListener("touchend",   (e) => { dragging = false; e.preventDefault(); }, { passive:false });
+
+  // Init
+  resizeCanvas();
+  window.addEventListener("resize", () => { resizeCanvas(); syncUI(); });
+
+  syncUI();
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
