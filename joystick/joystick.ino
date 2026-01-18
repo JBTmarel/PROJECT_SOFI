@@ -68,39 +68,14 @@ void loop() {
     //Serial.print(newY);
     positionX = newX;
     positionY = newY;
-    // throttlef = (newX / 68.0f) * 255.0f;
-    // throttlef = (135.0f*newX+8160.0f)/68.0f;
-    //throttlef = (15.0f * newY + 1530.0f) / 17.0f;
-    //throttle = lroundf(throttlef);
-    // if (throttle < 0) {
-    //   throttle = 0;
-    //   //Serial.print(" THROTTLE_ZERO ");
-    // } else if (throttle > 255) {
-    //   throttle = 255;
-    // analogWrite(throttlePin, throttle);
-    // //Serial.print(", Throttle:");
-    // //Serial.print(throttle);
-    // //Serial.println();
 
-    //}
     calcY = -newY;
     calcX = newX;
     if (calcY < 0) {
       calcY = 0;
       calcX = 0;
     }
-    // if (calcX > 0) {
-    //   //rightThrottle = (15.0f * calcY + 1530.0f) / 17.0f;
-    //   rightThrottle = k_eq*calcY + h_eq;
-    //   //leftThrottle = (15.0f * abs(calcY-calcX) + 1530.0f) / 17.0f;
-    //   leftThrottle = k_eq*abs(calcY-calcX)+h_eq;
-    // }
-    // else if (calcX < 0) {
-    //   //leftThrottle = (15.0f * calcY + 1530.0f) / 17.0f;
-    //   leftThrottle = k_eq*calcY + h_eq;
-    //   //rightThrottle = (15.0f * abs(calcY+calcX) + 1530.0f) / 17.0f;
-    //   rightThrottle = k_eq*abs(calcY+calcX) + h_eq;
-    // }
+
     ratio = abs(1.0f*calcX/maxSteps);
     speed = (15.0f * calcY + 1530.0f) / 17.0f;
     if (calcX < 0) {
