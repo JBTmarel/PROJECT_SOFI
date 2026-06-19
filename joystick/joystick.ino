@@ -1,5 +1,8 @@
 #include <Encoder.h>
 
+
+bool debugMode = 1;
+bool enableTimer = 1;
 // Numbering from left to right when leftmost cables are ground and 5V (So first
 // pair, i.e. left, is white)
 int WHITE1 = 5; //B2
@@ -29,13 +32,20 @@ float k_eq = ((255.0f*maxV/5.0f)-255.0f*minV/5.0f)/(maxSteps);
 float h_eq = 255.0f*minV/5.0f;
 
 void setup() {
-  // put your setup code here, to run once:
-  //Serial.begin(9600);
+  if (debugMode){
+    Serial.begin(9600);
+  }
   //pinMode(throttlePin, OUTPUT);
   pinMode(leftThrottlePin, OUTPUT);
   pinMode(rightThrottlePin, OUTPUT);
   pinMode(powerOnPin, OUTPUT);
   digitalWrite(powerOnPin, HIGH);
+}
+
+if (enableTimer){
+  long timerStart = 0;
+  long timerEnd = 0;
+  long timerAvg;
 }
 
 float throttlef = 0.0;
@@ -57,15 +67,19 @@ int resetError = 3;
 long calcY;
 long calcX;
 
+int turnNum = 10;
+
 void loop() {
   long newX, newY;
   newX = xAxis.read();
   newY = yAxis.read();  
   if (newX != positionX || newY != positionY) {
-    //Serial.print("X: ");
-    //Serial.print(newX);
-    //Serial.print(", Y: ");
-    //Serial.print(newY);
+    if (debugMode) {
+    Serial.print("X: ");
+    Serial.print(newX);
+    Serial.print(", Y: ");
+    Serial.print(newY);
+    }
     positionX = newX;
     positionY = newY;
 
@@ -77,6 +91,7 @@ void loop() {
     }
 
     ratio = abs(1.0f*calcX/maxSteps);
+    //ratio = pow(turnNum, -1+calcX/68)*(turnNum/(turnNum-1))-1/(turnNum-1);
     speed = (15.0f * calcY + 1530.0f) / 17.0f;
     if (calcX < 0) {
       leftThrottlef = speed;
@@ -90,22 +105,26 @@ void loop() {
 
     analogWrite(leftThrottlePin, leftThrottle);
     analogWrite(rightThrottlePin, rightThrottle);
-
-    //Serial.print(", ThrottleL: ");
-    //Serial.print(leftThrottle);
-    //Serial.print(", ThrottleR: ");
-    //Serial.print(rightThrottle);
-    //Serial.println();
+    if (debugMode){
+    Serial.print(", ThrottleL: ");
+    Serial.print(leftThrottle);
+    Serial.print(", ThrottleR: ");
+    Serial.print(rightThrottle);
+    Serial.println();
+    }
     start = millis();
     lastMoveTrue = 1;
   }
+
+  //If controller is still for 3 seconds near the center
+  //it will recalibrate the position to 0
   if (
     ((millis() - start) > 3000) && 
     (-1*resetError <= newX) &&
     (newX <= resetError) && 
     (-1*resetError < newY) &&
     (newY < resetError) &&
-    lastMoveTrue) {
+    lastMoveTrue)  {
 
     xAxis.write(0);
     yAxis.write(0);
@@ -114,11 +133,13 @@ void loop() {
     newY = 0;
     analogWrite(leftThrottlePin, 0);
     analogWrite(rightThrottlePin, 0);
+    if (debugMode){
     //Serial.println("Reset axes to zero");
     //Serial.print("X: ");
     //Serial.print(newX);
     //Serial.print(", Y: ");
     //Serial.print(newY);
+    }
     start = millis();
     lastMoveTrue = 0;
   }
