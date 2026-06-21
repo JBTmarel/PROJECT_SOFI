@@ -1,8 +1,9 @@
 #include <Encoder.h>
 
 
-bool debugMode = 1;
-bool enableTimer = 1;
+bool debugMode = true;
+bool enableTimer = false;
+bool showThrottle = false;
 // Numbering from left to right when leftmost cables are ground and 5V (So first
 // pair, i.e. left, is white)
 int WHITE1 = 5; //B2
@@ -30,11 +31,21 @@ int maxV = 3; //Throttle output voltage when joystick is at 0, MAX
 float maxSteps = 68.0f;
 float k_eq = ((255.0f*maxV/5.0f)-255.0f*minV/5.0f)/(maxSteps);
 float h_eq = 255.0f*minV/5.0f;
+float avgLoopTime = 0.15f; //avg time for one loop in milliseconds
+float minToMaxTime = 500; //time to ramp up from 0 to max in milliseconds
+
+
+long capMaxSteps(long x, float maxS){
+  return (min(abs(x), maxS)*((x>0)-(x<0)));
+}
 
 void setup() {
-  if (debugMode){
+  if (debugMode || enableTimer){
     Serial.begin(9600);
   }
+  pinMode(WHITE1, OUTPUT);
+  digitalWrite(WHITE1, LOW);
+  pinMode(WHITE2, INPUT_PULLUP);
   //pinMode(throttlePin, OUTPUT);
   pinMode(leftThrottlePin, OUTPUT);
   pinMode(rightThrottlePin, OUTPUT);
@@ -42,11 +53,11 @@ void setup() {
   digitalWrite(powerOnPin, HIGH);
 }
 
-if (enableTimer){
-  long timerStart = 0;
-  long timerEnd = 0;
-  long timerAvg;
-}
+
+unsigned long timerStart;
+float timerAvg = 0.0f;
+unsigned long timerCount = 0;
+
 
 float throttlef = 0.0;
 long positionX = -999;
@@ -59,6 +70,7 @@ long leftThrottle = 0;
 long rightThrottle = 0;
 float ratio = 0;
 float speed = 0;
+double angle;
 
 long start = 0;
 bool lastMoveTrue = 0;
@@ -69,19 +81,36 @@ long calcX;
 
 int turnNum = 10;
 
+int oldbutton = 1;
+
 void loop() {
-  long newX, newY;
-  newX = xAxis.read();
-  newY = yAxis.read();  
+  if (enableTimer){
+    timerStart = millis();
+  }
+  long newX = xAxis.read();
+  long newY = yAxis.read(); 
+
+  //----------Button---------------------- 
+  // int button = digitalRead(WHITE2);
+  // // if (button != oldbutton && button == 0){
+  // //   Serial.print("Button down");
+  // // }
+  // if (button != oldbutton && button == 1){
+  //   Serial.print("Button up");
+  //   newX = 0;
+  //   newY = 0;
+  // }
+
+  // oldbutton = button;
+  //---------------------------------------
+
   if (newX != positionX || newY != positionY) {
-    if (debugMode) {
-    Serial.print("X: ");
-    Serial.print(newX);
-    Serial.print(", Y: ");
-    Serial.print(newY);
-    }
+    newX = capMaxSteps(newX, maxSteps);
+    newY = capMaxSteps(newY, maxSteps);
+
     positionX = newX;
     positionY = newY;
+    
 
     calcY = -newY;
     calcX = newX;
@@ -89,7 +118,14 @@ void loop() {
       calcY = 0;
       calcX = 0;
     }
-
+    ---------Y = speed-----------
+    if (debugMode) {
+    Serial.println();
+    Serial.print("X: ");
+    Serial.print(newX);
+    Serial.print(", Y: ");
+    Serial.print(newY);
+    }
     ratio = abs(1.0f*calcX/maxSteps);
     //ratio = pow(turnNum, -1+calcX/68)*(turnNum/(turnNum-1))-1/(turnNum-1);
     speed = (15.0f * calcY + 1530.0f) / 17.0f;
@@ -100,17 +136,37 @@ void loop() {
       leftThrottlef = (1.0f-ratio)*speed;
       rightThrottlef = speed;
     }
+    ------------------------------
+
+    // // -----------R = speed----------
+    // float R = sqrt(sq(calcX)+sq(calcY));
+    // R = min(R, maxSteps);
+    // speed = (15.0f * R + 1530.0f) / 17.0f;
+    // angle = atan2(calcY, calcX);
+    // ratio = -0.5f+angle/3.1415f
+    // sign = (ratio>0)-(ratio<0)
+    // if (debugMode){
+    //   Serial.println();
+    //   Serial.print("R: ");
+    //   Serial.print(R);
+    //   Serial.print(", 0: ");
+    //   Serial.print(angle);
+    // }
+    // leftThrottlef = speed+
+    // rightThrottlef = speed
+    // //---------------------------------
+
     leftThrottle = lroundf(leftThrottlef);
     rightThrottle = lroundf(rightThrottlef);
 
     analogWrite(leftThrottlePin, leftThrottle);
     analogWrite(rightThrottlePin, rightThrottle);
-    if (debugMode){
+    if (debugMode && showThrottle){
     Serial.print(", ThrottleL: ");
     Serial.print(leftThrottle);
     Serial.print(", ThrottleR: ");
     Serial.print(rightThrottle);
-    Serial.println();
+    //Serial.println();
     }
     start = millis();
     lastMoveTrue = 1;
@@ -142,6 +198,12 @@ void loop() {
     }
     start = millis();
     lastMoveTrue = 0;
+  }
+  if (enableTimer){
+  timerCount++;
+  timerAvg = ((millis()-timerStart) + timerAvg*timerCount)/(timerCount+1);
+  Serial.print("Timer AVG: ");
+  Serial.println(timerAvg);
   }
 }
 
