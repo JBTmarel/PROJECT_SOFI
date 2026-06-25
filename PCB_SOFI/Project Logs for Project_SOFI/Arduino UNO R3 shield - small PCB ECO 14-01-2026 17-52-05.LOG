@@ -1,0 +1,5 @@
+Added Pin To Net: NetName=GND Pin=C1-2
+Added Pin To Net: NetName=GND Pin=C2-2
+Added Net: Name=GND
+Added Member To Class: ClassName=Arduino_hat Member=Component joystick 68021-210HLF
+Added Rule: Name=Schematic Supply Nets

@@ -1,0 +1,22 @@
+Output: Gerber X2 Files
+Type  : GerberX2
+From  : Variant [[No Variations]] of Project [Project_SOFI.PrjPcb]
+   Generated File[ArduinoUnoShield_Copper_Signal_Top.gbr]
+   Generated File[ArduinoUnoShield_Copper_Signal_Bot.gbr]
+   Generated File[ArduinoUnoShield_Legend_Top.gbr]
+   Generated File[ArduinoUnoShield_Legend_Bot.gbr]
+   Generated File[ArduinoUnoShield_Soldermask_Top.gbr]
+   Generated File[ArduinoUnoShield_Soldermask_Bot.gbr]
+   Generated File[ArduinoUnoShield_Paste_Top.gbr]
+   Generated File[ArduinoUnoShield_Paste_Bot.gbr]
+   Generated File[ArduinoUnoShield_Profile.gbr]
+   Generated File[ArduinoUnoShield_NPTH_Drill.gbr]
+   Generated File[ArduinoUnoShield_PTH_Drill.gbr]
+   Generated File[ArduinoUnoShield.EXTREP]
+   Generated File[ArduinoUnoShield.REP]
+
+
+Files Generated   : 13
+Documents Printed : 0
+
+Finished Output Generation At 21:37:50 On 16/01/2026

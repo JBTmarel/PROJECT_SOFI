@@ -1,0 +1,18 @@
+Removed Pin From Net: NetName=Net*_4 Pin=joystick-B2
+Added Pin To Net: NetName=Net*_4 Pin=joystick-V
+Added Pin To Net: NetName=Net*_20 Pin=joystick-B5
+Added Net: Name=Net*_20
+Added Pin To Net: NetName=Net*_21 Pin=joystick-B4
+Added Net: Name=Net*_21
+Added Pin To Net: NetName=Net*_25 Pin=joystick-A5
+Added Net: Name=Net*_25
+Added Pin To Net: NetName=Net*_26 Pin=joystick-A4
+Added Net: Name=Net*_26
+Added Pin To Net: NetName=Net*_27 Pin=joystick-B2
+Added Net: Name=Net*_27
+Added Pin To Net: NetName=Net*_28 Pin=joystick-A2
+Added Net: Name=Net*_28
+Added Pin To Net: NetName=Net*_29 Pin=joystick-A3
+Added Net: Name=Net*_29
+Added Pin To Net: NetName=Net*_30 Pin=joystick-B3
+Added Net: Name=Net*_30
