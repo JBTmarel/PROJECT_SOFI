@@ -1,9 +1,15 @@
 #include <Encoder.h>
 
 
-bool debugMode = true;
-bool enableTimer = false;
-bool showThrottle = false;
+
+//-------------Debug mode and settings-----------------
+bool debugMode = true; //If disabled, disables all
+
+bool enableTimer = false; //debugMode must also be on
+bool showThrottle = false; //debugMode must also be on
+bool showRatios = false; //debugMode must also be on
+bool showXY = true;
+//-----------------------------------------------------------------------------------------
 // Numbering from left to right when leftmost cables are ground and 5V (So first
 // pair, i.e. left, is white)
 int WHITE1 = 5; //B2
@@ -26,6 +32,8 @@ Encoder yAxis(BROWN1, BROWN2);
 // Encoder spinner(ORAN1, ORAN2);
 // Encoder button(WHITE1, WHITE2);
 
+//-----------------------------------------------------------------------------------------
+//Important values
 int minV = 1.6; //Throttle output voltage when joystick is at 0, 0
 int maxV = 3; //Throttle output voltage when joystick is at 0, MAX
 float maxSteps = 68.0f;
@@ -34,10 +42,33 @@ float h_eq = 255.0f*minV/5.0f;
 float avgLoopTime = 0.15f; //avg time for one loop in milliseconds
 float minToMaxTime = 500; //time to ramp up from 0 to max in milliseconds
 
-
-long capMaxSteps(long x, float maxS){
+//-----------------------------------------------------------------------------------------
+//Arduino accumulates error which lets the X and Y
+//values to go over their maximum step length from the center.
+//This caps that
+long capMaxSteps(long x, float maxS){ 
   return (min(abs(x), maxS)*((x>0)-(x<0)));
 }
+//-----------------------------------------------------------------------------------------
+//Applies a curve to the turning and speed control
+//Makes it more intuitive for humans to use.
+//Expo variables makes it adjustable
+float turningExpo = 0.3;
+float speedExpo = turningExpo;
+float applyExpo(float x, float expo) {
+  return (1.0f - expo) * x + expo * x * x * x;
+}
+//-----------------------------------------------------------------------------------------
+dk
+float rampToward(float minMaxTime, float voltRange, float dt, float target, float current){
+  float voltRate = voltRange/minMaxTime;
+  float step = voltRate*dt;
+  if step > abs(target-current){
+    step = target-current;
+  }  
+  return step;
+}
+//-----------------------------------------------------------------------------------------
 
 void setup() {
   if (debugMode || enableTimer){
@@ -51,8 +82,9 @@ void setup() {
   pinMode(rightThrottlePin, OUTPUT);
   pinMode(powerOnPin, OUTPUT);
   digitalWrite(powerOnPin, HIGH);
+  lastRampTime = millis();
 }
-
+//-----------------------------------------------------------------------------------------
 
 unsigned long timerStart;
 float timerAvg = 0.0f;
@@ -82,6 +114,8 @@ long calcX;
 int turnNum = 10;
 
 int oldbutton = 1;
+
+//-----------------------------------------------------------------------------------------
 
 void loop() {
   if (enableTimer){
@@ -118,25 +152,43 @@ void loop() {
       calcY = 0;
       calcX = 0;
     }
-    ---------Y = speed-----------
-    if (debugMode) {
+    // ---------Y = speed-----------------------------------------------------------
+    if (debugMode && showXY) {
     Serial.println();
     Serial.print("X: ");
-    Serial.print(newX);
+    Serial.print(calcX);
     Serial.print(", Y: ");
-    Serial.print(newY);
+    Serial.print(calcY);
     }
-    ratio = abs(1.0f*calcX/maxSteps);
+
+
+    float turningRatio = 1.0f*(float)calcX/(float)maxSteps;
+    turningRatio = applyExpo(turningRatio, turningExpo);
     //ratio = pow(turnNum, -1+calcX/68)*(turnNum/(turnNum-1))-1/(turnNum-1);
-    speed = (15.0f * calcY + 1530.0f) / 17.0f;
-    if (calcX < 0) {
-      leftThrottlef = speed;
-      rightThrottlef = (1.0f-ratio)*speed;
-    } else {
-      leftThrottlef = (1.0f-ratio)*speed;
-      rightThrottlef = speed;
+    float speedRatio = 1.0f*(float)calcY/(float)maxSteps;
+    speedRatio = applyExpo(speedRatio, speedExpo);
+
+    turningRatio = constrain(turningRatio, -1.0f, 1.0f);
+    speedRatio = constrain(speedRatio, 0.0f, 1.0f);
+
+    if (debugMode && showRatios) {
+      Serial.println();
+      Serial.print("Turn: ");
+      Serial.print(turningRatio);
+      Serial.print(", Speed: ");
+      Serial.print(speedRatio);
     }
-    ------------------------------
+    
+    leftThrottleRatio = speedRatio+turningRatio;
+    rightThrottleRatio = speedRatio-turningRatio;
+    if (max(abs(leftThrottleRatio), abs(rightThrottleratio)) > 1){
+      leftThrottleRatio /= max(abs(leftThrottleRatio), abs(rightThrottleratio));
+      rightThrottleRatio /= max(abs(leftThrottleRatio), abs(rightThrottleratio));
+    }
+
+    
+    
+    // -----------------------------------------------------------------------------
 
     // // -----------R = speed----------
     // float R = sqrt(sq(calcX)+sq(calcY));
@@ -161,6 +213,7 @@ void loop() {
 
     analogWrite(leftThrottlePin, leftThrottle);
     analogWrite(rightThrottlePin, rightThrottle);
+    
     if (debugMode && showThrottle){
     Serial.print(", ThrottleL: ");
     Serial.print(leftThrottle);
