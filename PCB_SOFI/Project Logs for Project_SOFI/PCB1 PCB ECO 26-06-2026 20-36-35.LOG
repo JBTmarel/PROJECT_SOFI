@@ -1,0 +1,169 @@
+Added Component: Designator=ESP32(ESP32-DEV-KIT-V1)
+Add component (AddParameter): Name = "Case/Package"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.aliexpress.com/item/1005006771532302.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Clock Frequency"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "ESP32 DEV KIT V1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Frequency"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "I/Os"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Interface"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Espressif Systems"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ESP-WROOM-32"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Nominal Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pin Count"; Value = "30"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RAM Size"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/ESP32-S3-DEVKITC-1-N8R8/Espressif+Systems/view-part/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "ESP32-S3-DEVKITC-1-N8R8.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=ETHERNET(FP-1-406541-1-MFG)
+Add component (AddParameter): Name = "Case/Package"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = "Female"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Current Rating"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = "85°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = "-40°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "Panel"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage Rating"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J_button(HDR_F_1X4)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case/Package"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X4"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Kit"; Value = "Rover2026"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Location"; Value = "v207"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Current Rating"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "4"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF4"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage Rating"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=joystick_A1(FCI-68021-210HLF-10_V)
+Add component (AddParameter): Name = "Case/Package"; Value = "68021-210HLF-10"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = "Header"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet URL"; Value = "http://portal.fciconnect.com/Comergent//fci/drawing/68020.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Version"; Value = "Rev. BM, 04/2015"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = "Male"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "FCI Electronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer URL"; Value = "http://portal.fciconnect.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Current Rating"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "TH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Description"; Value = "Male Header, Pitch 2.54 mm, 2 x 5 Position, Height 4.83 mm, Tail Length 3.05 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Reference"; Value = "68021-210HLF-10"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = "Unknown"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage Rating"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=P_auka(FCI-68021-210HLF-10_V)
+Add component (AddParameter): Name = "Case/Package"; Value = "68021-210HLF-10"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = "Header"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet URL"; Value = "http://portal.fciconnect.com/Comergent//fci/drawing/68020.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Version"; Value = "Rev. BM, 04/2015"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = "Male"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "FCI Electronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer URL"; Value = "http://portal.fciconnect.com/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Current Rating"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "TH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Description"; Value = "Male Header, Pitch 2.54 mm, 2 x 5 Position, Height 4.83 mm, Tail Length 3.05 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package Reference"; Value = "68021-210HLF-10"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = "Unknown"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage Rating"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=ESP32-J1_14
+Added Pin To Net: NetName=GND Pin=ESP32-J3_14
+Added Pin To Net: NetName=GND Pin=ETHERNET-8
+Added Pin To Net: NetName=GND Pin=ETHERNET-9
+Added Pin To Net: NetName=GND Pin=ETHERNET-10
+Added Pin To Net: NetName=GND Pin=J_button-1
+Added Pin To Net: NetName=GND Pin=J_button-2
+Added Pin To Net: NetName=GND Pin=P_auka-10
+Added Net: Name=GND
+Added Net: Name=Net*_4
+Added Net: Name=Net*_20
+Added Net: Name=Net*_21
+Added Net: Name=Net*_25
+Added Net: Name=Net*_26
+Added Net: Name=Net*_27
+Added Net: Name=Net*_28
+Added Net: Name=Net*_29
+Added Net: Name=Net*_30
+Added Net: Name=NetC1_1
+Added Net: Name=NetC2_1
+Added Pin To Net: NetName=NetESP32_J1_6 Pin=ESP32-J1_6
+Added Net: Name=NetESP32_J1_6
+Added Pin To Net: NetName=NetESP32_J1_7 Pin=ESP32-J1_7
+Added Net: Name=NetESP32_J1_7
+Added Pin To Net: NetName=NetESP32_J1_8 Pin=ESP32-J1_8
+Added Pin To Net: NetName=NetESP32_J1_8 Pin=ETHERNET-3
+Added Net: Name=NetESP32_J1_8
+Added Pin To Net: NetName=NetESP32_J1_9 Pin=ESP32-J1_9
+Added Pin To Net: NetName=NetESP32_J1_9 Pin=ETHERNET-4
+Added Net: Name=NetESP32_J1_9
+Added Pin To Net: NetName=NetESP32_J1_10 Pin=ESP32-J1_10
+Added Net: Name=NetESP32_J1_10
+Added Pin To Net: NetName=NetESP32_J1_11 Pin=ESP32-J1_11
+Added Net: Name=NetESP32_J1_11
+Added Pin To Net: NetName=NetESP32_J1_13 Pin=ESP32-J1_13
+Added Net: Name=NetESP32_J1_13
+Added Pin To Net: NetName=NetESP32_J1_15 Pin=ESP32-J1_15
+Added Pin To Net: NetName=NetESP32_J1_15 Pin=P_auka-2
+Added Net: Name=NetESP32_J1_15
+Added Pin To Net: NetName=NetESP32_J3_2 Pin=ESP32-J3_2
+Added Pin To Net: NetName=NetESP32_J3_2 Pin=P_auka-7
+Added Net: Name=NetESP32_J3_2
+Added Pin To Net: NetName=NetESP32_J3_5 Pin=ESP32-J3_5
+Added Pin To Net: NetName=NetESP32_J3_5 Pin=P_auka-8
+Added Net: Name=NetESP32_J3_5
+Added Pin To Net: NetName=NetESP32_J3_6 Pin=ESP32-J3_6
+Added Pin To Net: NetName=NetESP32_J3_6 Pin=ETHERNET-2
+Added Net: Name=NetESP32_J3_6
+Added Pin To Net: NetName=NetESP32_J3_7 Pin=ESP32-J3_7
+Added Net: Name=NetESP32_J3_7
+Added Pin To Net: NetName=NetESP32_J3_9 Pin=ESP32-J3_9
+Added Net: Name=NetESP32_J3_9
+Added Pin To Net: NetName=NetESP32_J3_10 Pin=ESP32-J3_10
+Added Net: Name=NetESP32_J3_10
+Added Pin To Net: NetName=NetESP32_J3_15 Pin=ESP32-J3_15
+Added Pin To Net: NetName=NetESP32_J3_15 Pin=J_button-3
+Added Pin To Net: NetName=NetESP32_J3_15 Pin=P_auka-9
+Added Net: Name=NetESP32_J3_15
+Added Pin To Net: NetName=NetETHERNET_1 Pin=ETHERNET-1
+Added Pin To Net: NetName=NetETHERNET_1 Pin=P_auka-3
+Added Net: Name=NetETHERNET_1
+Added Pin To Net: NetName=NetETHERNET_5 Pin=ETHERNET-5
+Added Pin To Net: NetName=NetETHERNET_5 Pin=P_auka-5
+Added Net: Name=NetETHERNET_5
+Added Pin To Net: NetName=NetETHERNET_6 Pin=ETHERNET-6
+Added Pin To Net: NetName=NetETHERNET_6 Pin=J_button-4
+Added Pin To Net: NetName=NetETHERNET_6 Pin=P_auka-4
+Added Pin To Net: NetName=NetETHERNET_6 Pin=P_auka-6
+Added Net: Name=NetETHERNET_6
+Added Pin To Net: NetName=NetETHERNET_7 Pin=ETHERNET-7
+Added Pin To Net: NetName=NetETHERNET_7 Pin=P_auka-1
+Added Net: Name=NetETHERNET_7
+Added Class: Name=ESP32_PCB
+Added Rule: Name=Schematic Supply Nets

@@ -1,0 +1,63 @@
+Removed Pin From Net: NetName=NetJ1_J3_15 Pin=J1-J3_15
+Removed Pin From Net: NetName=NetJ?_5 Pin=P_3V3-1
+Removed Pin From Net: NetName=NetJ?_6 Pin=P_3V3-2
+Removed Pin From Net: NetName=NetJ1_J1_14 Pin=P_auka-1
+Removed Pin From Net: NetName=NetJ1_J1_14 Pin=P_auka-3
+Removed Pin From Net: NetName=NetJ1_J1_14 Pin=P_auka-5
+Removed Pin From Net: NetName=NetJ1_J1_14 Pin=P_auka-7
+Removed Pin From Net: NetName=NetJ1_J3_15 Pin=P_auka-8
+Removed Pin From Net: NetName=NetJ1_J1_14 Pin=P_auka-9
+Removed Pin From Net: NetName=NetJ1_J3_15 Pin=P_auka-10
+Removed Pin From Net: NetName=NetJ1_J3_15 Pin=P_BUTTON-1
+Removed Pin From Net: NetName=NetJ?_6 Pin=P_BUTTON-2
+Removed Pin From Net: NetName=NetJ?_7 Pin=P_GND-1
+Removed Pin From Net: NetName=NetJ1_J1_14 Pin=P_GND-2
+Removed Member From Class: ClassName=ESP32_PCB Member=P_3V3
+Removed Member From Class: ClassName=ESP32_PCB Member=P_BUTTON
+Removed Member From Class: ClassName=ESP32_PCB Member=P_GND
+Add Pin To Net: Unknown Pin: Pin *-4
+Add Pin To Net: Unknown Pin: Pin *-5
+Add Pin To Net: Unknown Pin: Pin *-6
+Add Pin To Net: Unknown Pin: Pin *-17
+Add Pin To Net: Unknown Pin: Pin *-20
+Add Pin To Net: Unknown Pin: Pin *-21
+Add Pin To Net: Unknown Pin: Pin *-25
+Add Pin To Net: Unknown Pin: Pin *-26
+Add Pin To Net: Unknown Pin: Pin *-27
+Add Pin To Net: Unknown Pin: Pin *-28
+Add Pin To Net: Unknown Pin: Pin *-29
+Add Pin To Net: Unknown Pin: Pin *-30
+Add Pin To Net: Unknown Pin: Pin C1P-1
+Add Pin To Net: Unknown Pin: Pin C2P-1
+Add Pin To Net: Unknown Pin: Pin joystick?-A2
+Add Pin To Net: Unknown Pin: Pin joystick?-A3
+Add Pin To Net: Unknown Pin: Pin joystick?-A4
+Add Pin To Net: Unknown Pin: Pin joystick?-A5
+Add Pin To Net: Unknown Pin: Pin joystick?-B2
+Add Pin To Net: Unknown Pin: Pin joystick?-B3
+Add Pin To Net: Unknown Pin: Pin joystick?-B4
+Add Pin To Net: Unknown Pin: Pin joystick?-B5
+Add Pin To Net: Unknown Pin: Pin joystick?-GND
+Add Pin To Net: Unknown Pin: Pin joystick-A2
+Add Pin To Net: Unknown Pin: Pin joystick-A3
+Add Pin To Net: Unknown Pin: Pin joystick-A4
+Add Pin To Net: Unknown Pin: Pin joystick-A5
+Add Pin To Net: Unknown Pin: Pin joystick-B2
+Add Pin To Net: Unknown Pin: Pin joystick-B3
+Add Pin To Net: Unknown Pin: Pin joystick-B4
+Add Pin To Net: Unknown Pin: Pin joystick-B5
+Add Pin To Net: Unknown Pin: Pin joystick-GND
+Add Pin To Net: Unknown Pin: Pin joystick-V
+Added Pin To Net: NetName=NetJ?_6 Pin=P_auka-1
+Added Pin To Net: NetName=NetJ?_5 Pin=P_auka-3
+Added Pin To Net: NetName=NetJ?_7 Pin=P_auka-7
+Added Pin To Net: NetName=NetJ1_J1_14 Pin=P_auka-8
+Added Pin To Net: NetName=NetJ1_J1_14 Pin=P_auka-10
+Change Net Name : Old Net Name=NetJ1_J3_15 New Net Name=NetP_auka_2
+Added Pin To Net: NetName=NetJ1_J3_15 Pin=J1-J3_15
+Added Pin To Net: NetName=NetJ1_J3_15 Pin=P_auka-5
+Added Pin To Net: NetName=NetJ1_J3_15 Pin=P_auka-9
+Added Net: Name=NetJ1_J3_15
+Add Class Member: Failed to add class member : Component * ARDUINO UNO REV3 - RETAIL
+Add Class Member: Failed to add class member : Component C1P 1 pin connector
+Add Class Member: Failed to add class member : Component C2P 1 pin connector
