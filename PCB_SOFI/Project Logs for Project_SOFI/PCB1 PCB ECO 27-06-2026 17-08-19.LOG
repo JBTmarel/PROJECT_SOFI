@@ -1,0 +1,49 @@
+Remove Pin from Net: Failed to remove Pin
+Removed Pin From Net: NetName=NetESP32_J1_11 Pin=joystick_A1-1
+Removed Pin From Net: NetName=NetESP32_J1_10 Pin=joystick_A1-2
+Removed Pin From Net: NetName=NetESP32_J1_7 Pin=joystick_A1-3
+Removed Pin From Net: NetName=NetESP32_J1_6 Pin=joystick_A1-4
+Removed Pin From Net: NetName=NetESP32_J3_7 Pin=joystick_A1-7
+Removed Pin From Net: NetName=NetESP32_J3_9 Pin=joystick_A1-8
+Removed Pin From Net: NetName=NetESP32_J3_10 Pin=joystick_A1-9
+Removed Pin From Net: NetName=NetESP32_J1_13 Pin=joystick_A1-10
+Add Pin To Net: Unknown Pin: Pin *-4
+Add Pin To Net: Unknown Pin: Pin *-5
+Add Pin To Net: Unknown Pin: Pin *-6
+Add Pin To Net: Unknown Pin: Pin *-17
+Add Pin To Net: Unknown Pin: Pin *-20
+Add Pin To Net: Unknown Pin: Pin *-21
+Add Pin To Net: Unknown Pin: Pin *-25
+Add Pin To Net: Unknown Pin: Pin *-26
+Add Pin To Net: Unknown Pin: Pin *-27
+Add Pin To Net: Unknown Pin: Pin *-28
+Add Pin To Net: Unknown Pin: Pin *-29
+Add Pin To Net: Unknown Pin: Pin *-30
+Add Pin To Net: Unknown Pin: Pin C1-1
+Add Pin To Net: Unknown Pin: Pin C1-2
+Add Pin To Net: Unknown Pin: Pin C1P-1
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Add Pin To Net: Unknown Pin: Pin C2P-1
+Added Pin To Net: NetName=NetESP32_J1_6 Pin=ETHERNET-2
+Add Pin To Net: Unknown Pin: Pin J_button-1
+Added Pin To Net: NetName=NetESP32_J1_13 Pin=joystick_A1-1
+Added Pin To Net: NetName=NetESP32_J1_11 Pin=joystick_A1-2
+Added Pin To Net: NetName=NetESP32_J1_10 Pin=joystick_A1-3
+Added Pin To Net: NetName=NetESP32_J1_7 Pin=joystick_A1-4
+Added Pin To Net: NetName=NetESP32_J3_7 Pin=joystick_A1-8
+Added Pin To Net: NetName=NetESP32_J3_9 Pin=joystick_A1-9
+Added Pin To Net: NetName=NetESP32_J3_10 Pin=joystick_A1-10
+Add Pin To Net: Unknown Pin: Pin joystick-A2
+Add Pin To Net: Unknown Pin: Pin joystick-A3
+Add Pin To Net: Unknown Pin: Pin joystick-A4
+Add Pin To Net: Unknown Pin: Pin joystick-A5
+Add Pin To Net: Unknown Pin: Pin joystick-B2
+Add Pin To Net: Unknown Pin: Pin joystick-B3
+Add Pin To Net: Unknown Pin: Pin joystick-B4
+Add Pin To Net: Unknown Pin: Pin joystick-B5
+Add Pin To Net: Unknown Pin: Pin joystick-GND
+Add Pin To Net: Unknown Pin: Pin joystick-V
+Added Pin To Net: NetName=NetESP32_J3_2 Pin=ESP32-J3_2
+Added Pin To Net: NetName=NetESP32_J3_2 Pin=joystick_A1-7
+Added Net: Name=NetESP32_J3_2

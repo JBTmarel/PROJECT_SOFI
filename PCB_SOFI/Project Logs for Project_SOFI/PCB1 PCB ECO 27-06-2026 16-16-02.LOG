@@ -1,0 +1,48 @@
+Added Component: Designator=confirm_connect(MHDR1X14)
+Added Component: Designator=Extra(MHDR1X14)
+Add Pin To Net: Unknown Pin: Pin *-4
+Add Pin To Net: Unknown Pin: Pin *-5
+Add Pin To Net: Unknown Pin: Pin *-6
+Add Pin To Net: Unknown Pin: Pin *-17
+Add Pin To Net: Unknown Pin: Pin *-20
+Add Pin To Net: Unknown Pin: Pin *-21
+Add Pin To Net: Unknown Pin: Pin *-25
+Add Pin To Net: Unknown Pin: Pin *-26
+Add Pin To Net: Unknown Pin: Pin *-27
+Add Pin To Net: Unknown Pin: Pin *-28
+Add Pin To Net: Unknown Pin: Pin *-29
+Add Pin To Net: Unknown Pin: Pin *-30
+Add Pin To Net: Unknown Pin: Pin C1-1
+Add Pin To Net: Unknown Pin: Pin C1-2
+Add Pin To Net: Unknown Pin: Pin C1P-1
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Add Pin To Net: Unknown Pin: Pin C2P-1
+Added Pin To Net: NetName=GND Pin=confirm_connect-2
+Added Pin To Net: NetName=NetETHERNET_1 Pin=Extra-1
+Added Pin To Net: NetName=NetESP32_J3_5 Pin=Extra-2
+Added Pin To Net: NetName=NetESP32_J1_15 Pin=Extra-3
+Added Pin To Net: NetName=GND Pin=Extra-4
+Add Pin To Net: Unknown Pin: Pin joystick-A2
+Add Pin To Net: Unknown Pin: Pin joystick-A3
+Add Pin To Net: Unknown Pin: Pin joystick-A4
+Add Pin To Net: Unknown Pin: Pin joystick-A5
+Add Pin To Net: Unknown Pin: Pin joystick-B2
+Add Pin To Net: Unknown Pin: Pin joystick-B3
+Add Pin To Net: Unknown Pin: Pin joystick-B4
+Add Pin To Net: Unknown Pin: Pin joystick-B5
+Add Pin To Net: Unknown Pin: Pin joystick-GND
+Add Pin To Net: Unknown Pin: Pin joystick-V
+Change Net Name : Old Net Name=3V3 New Net Name=NetESP32_J3_15
+Added Pin To Net: NetName=Netconfirm_connect_1 Pin=confirm_connect-1
+Added Pin To Net: NetName=Netconfirm_connect_1 Pin=ETHERNET-7
+Added Net: Name=Netconfirm_connect_1
+Added Pin To Net: NetName=Netconfirm_connect_3 Pin=confirm_connect-3
+Added Pin To Net: NetName=Netconfirm_connect_3 Pin=ETHERNET-5
+Added Net: Name=Netconfirm_connect_3
+Added Pin To Net: NetName=Netconfirm_connect_4 Pin=confirm_connect-4
+Added Pin To Net: NetName=Netconfirm_connect_4 Pin=ETHERNET-6
+Added Pin To Net: NetName=Netconfirm_connect_4 Pin=J_button-4
+Added Net: Name=Netconfirm_connect_4
+Added Member To Class: ClassName=ESP32_PCB Member=Component confirm_connect HF-SZ-4
+Added Member To Class: ClassName=ESP32_PCB Member=Component Extra HF-SZ-4
