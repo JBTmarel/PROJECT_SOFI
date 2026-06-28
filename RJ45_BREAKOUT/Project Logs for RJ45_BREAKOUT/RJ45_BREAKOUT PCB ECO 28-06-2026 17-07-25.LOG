@@ -1,0 +1,158 @@
+Added Component: Designator=confirm_connect_3V3(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=confirm_connect_GND(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=ETHERNET_SOFI(FP-1-406541-1-MFG)
+Add component (AddParameter): Name = "Case/Package"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = "Female"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Current Rating"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = "85°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = "-40°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = "Panel"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage Rating"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=EXTRA_sofi(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=GPIO25(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=GPIO26(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=HV(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=RELAY(HDR_F_1X2)
+Add component (AddParameter): Name = "ASSEMBLY"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Component Type"; Value = "Standard"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DESC"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Design Item ID"; Value = "HDR_F_1X2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MANF_P#"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PARAM"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PRICE"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Source"; Value = "Conn Header.SchLib"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "VALUE"; Value = "HDRF2"; VariantName = "[No Variations]"
+Added Component: Designator=U?(LM2596S-Footprint-1)
+Add component (AddParameter): Name = "Case/Package"; Value = "PCB"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Dropout Voltage"; Value = "3.2V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Frequency"; Value = "150kHz"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Output Voltage"; Value = "35V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Power Dissipation"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Supply Voltage"; Value = "40V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Supply Voltage"; Value = "3.2V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Nominal Supply Current"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Output Current"; Value = "2A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Output Voltage"; Value = "5V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "4"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "https://adiy.in/shop/lm2596-step-down-dc-dc-buck-converter-adjustable-module/"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=confirm_connect_GND-2
+Added Pin To Net: NetName=GND Pin=ETHERNET_SOFI-7
+Added Pin To Net: NetName=GND Pin=ETHERNET_SOFI-9
+Added Pin To Net: NetName=GND Pin=ETHERNET_SOFI-10
+Added Pin To Net: NetName=GND Pin=EXTRA_sofi-2
+Added Pin To Net: NetName=GND Pin=GPIO25-1
+Added Pin To Net: NetName=GND Pin=GPIO26-1
+Added Pin To Net: NetName=GND Pin=HV-1
+Added Pin To Net: NetName=GND Pin=RELAY-1
+Added Pin To Net: NetName=GND Pin=U?-2
+Added Pin To Net: NetName=GND Pin=U?-4
+Added Net: Name=GND
+Added Pin To Net: NetName=Netconfirm_connect_3V3_1 Pin=confirm_connect_3V3-1
+Added Pin To Net: NetName=Netconfirm_connect_3V3_1 Pin=ETHERNET_SOFI-6
+Added Net: Name=Netconfirm_connect_3V3_1
+Added Pin To Net: NetName=Netconfirm_connect_3V3_2 Pin=confirm_connect_3V3-2
+Added Pin To Net: NetName=Netconfirm_connect_3V3_2 Pin=ETHERNET_SOFI-8
+Added Pin To Net: NetName=Netconfirm_connect_3V3_2 Pin=U?-3
+Added Net: Name=Netconfirm_connect_3V3_2
+Added Pin To Net: NetName=Netconfirm_connect_GND_1 Pin=confirm_connect_GND-1
+Added Pin To Net: NetName=Netconfirm_connect_GND_1 Pin=ETHERNET_SOFI-4
+Added Net: Name=Netconfirm_connect_GND_1
+Added Pin To Net: NetName=NetETHERNET_SOFI_1 Pin=ETHERNET_SOFI-1
+Added Pin To Net: NetName=NetETHERNET_SOFI_1 Pin=RELAY-2
+Added Net: Name=NetETHERNET_SOFI_1
+Added Pin To Net: NetName=NetETHERNET_SOFI_2 Pin=ETHERNET_SOFI-2
+Added Pin To Net: NetName=NetETHERNET_SOFI_2 Pin=EXTRA_sofi-1
+Added Net: Name=NetETHERNET_SOFI_2
+Added Pin To Net: NetName=NetETHERNET_SOFI_3 Pin=ETHERNET_SOFI-3
+Added Pin To Net: NetName=NetETHERNET_SOFI_3 Pin=GPIO25-2
+Added Net: Name=NetETHERNET_SOFI_3
+Added Pin To Net: NetName=NetETHERNET_SOFI_5 Pin=ETHERNET_SOFI-5
+Added Pin To Net: NetName=NetETHERNET_SOFI_5 Pin=GPIO26-2
+Added Net: Name=NetETHERNET_SOFI_5
+Added Pin To Net: NetName=NetHV_2 Pin=HV-2
+Added Pin To Net: NetName=NetHV_2 Pin=U?-1
+Added Net: Name=NetHV_2
+Added Class: Name=RJ45_breakout
+Added Rule: Name=Schematic Supply Nets

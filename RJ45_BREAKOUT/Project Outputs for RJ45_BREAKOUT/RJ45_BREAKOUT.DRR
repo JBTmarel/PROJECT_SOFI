@@ -1,0 +1,20 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: RJ45_BREAKOUT.PcbDoc   28/06/2026  17:53:11
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : RJ45_BREAKOUT.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      0.89mm (35mil)                                            Round             8         PTH        14.29mm (0.56inch)
+T2      1mm (39mil)                                               Round             4         PTH        73.10mm (2.88inch)
+T3      1.05mm (41mil)                                            Round             14        PTH        51.54mm (2.03inch)
+T4      1.5mm (59mil)                                             Round             2         PTH        40.86mm (1.61inch)
+T5      1.57mm (62mil)                                            Round             2         PTH        16.26mm (0.64inch)
+T6      4.25mm (167mil)                                           Round             4         PTH        190.00mm (7.48inch)
+T7      3.25mm (128mil)                                           Round             2         NPTH       12.70mm (0.50inch)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              36
+
+Total Processing Time (hh:mm:ss) : 00:00:00

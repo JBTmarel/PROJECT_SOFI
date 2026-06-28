@@ -1,0 +1,9 @@
+Removed Pin From Net: NetName=GND Pin=confirm_connect_GND-2
+Removed Pin From Net: NetName=NetETHERNET_SOFI_2 Pin=EXTRA_sofi-1
+Removed Pin From Net: NetName=GND Pin=EXTRA_sofi-2
+Added Pin To Net: NetName=GND Pin=confirm_connect_GND-1
+Added Pin To Net: NetName=GND Pin=EXTRA_sofi-1
+Added Pin To Net: NetName=NetETHERNET_SOFI_2 Pin=EXTRA_sofi-2
+Added Pin To Net: NetName=Netconfirm_connect_GND_2 Pin=confirm_connect_GND-2
+Added Pin To Net: NetName=Netconfirm_connect_GND_2 Pin=ETHERNET_SOFI-4
+Added Net: Name=Netconfirm_connect_GND_2

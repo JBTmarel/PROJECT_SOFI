@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [RJ45_BREAKOUT.PrjPcb]
+   Generated File[RJ45_BREAKOUT.TXT]
+   Generated File[RJ45_BREAKOUT.LDP]
+   Generated File[RJ45_BREAKOUT.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 17:53:11 On 28/06/2026
