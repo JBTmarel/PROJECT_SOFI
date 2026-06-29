@@ -2,195 +2,318 @@
 #include <Encoder.h>
 #include <math.h>
 
-// ESP32 translation of the original Arduino Uno joystick sketch (translated by ChatGPT).
-// Target shown by your board info: classic ESP32 / ESP32-D0WD-V3.
-//
-// Pin notes:
-// - Avoid GPIO 6-11: used for ESP32 flash on most dev boards.
-// - Avoid boot strapping pins unless you know your wiring will not affect boot.
-// - These encoder pins are normal GPIOs with interrupt support and internal pullups.
-// - Throttle outputs use the ESP32 DAC pins, GPIO25 and GPIO26, because the
-//   original sketch's comments describe voltage outputs rather than pure PWM.
+// -----------------------------------------------------------------------------
+// ESP32 joystick -> left/right BLDC throttle controller
+// Uses real DAC outputs on GPIO25 and GPIO26, not PWM.
+// Change pins here if needed.
+// -----------------------------------------------------------------------------
 
-constexpr bool debugMode = true;
+// ---------------- Debug mode and settings ----------------
+const bool debugMode     = true;   // If false, disables all debug printing
+const bool enableTimer   = false;  // debugMode must also be true
+const bool showThrottle  = false;  // debugMode must also be true
+const bool showRatios    = false;  // debugMode must also be true
+const bool showXY        = true;   // debugMode must also be true
 
-// Original cable color names, remapped from Uno pins to ESP32 GPIOs.
-// All of these are interrupt-capable ESP32 GPIOs.
-constexpr int WHITE1 = 18;  // optional encoder pair
-constexpr int WHITE2 = 19;
-constexpr int ORAN1  = 21;  // optional encoder pair
-constexpr int ORAN2  = 22;
-constexpr int RED1   = 32;  // xAxis encoder A/B
-constexpr int RED2   = 33;
-constexpr int BROWN1 = 27;  // yAxis encoder A/B
-constexpr int BROWN2 = 14;
+// ---------------- Pin settings ----------------
+// Choose normal ESP32 GPIOs. Avoid GPIO6-11. Avoid boot pins if possible.
+// GPIO25 and GPIO26 are the ESP32 DAC pins.
 
-// ESP32 DAC outputs. On classic ESP32, DAC1 = GPIO25, DAC2 = GPIO26.
-constexpr int leftThrottlePin  = 25;
-constexpr int rightThrottlePin = 26;
+const uint8_t X_ENC_A_PIN = 14;   // old RED1
+const uint8_t X_ENC_B_PIN = 17;   // old RED2
+const uint8_t Y_ENC_A_PIN = 13;   // old BROWN1
+const uint8_t Y_ENC_B_PIN = 16;   // old BROWN2
 
-// Safe general-purpose output pin. Change this if your board already uses GPIO23.
-constexpr int powerOnPin = 23;
+// Optional button wiring, same idea as old WHITE1/WHITE2:
+// one pin is driven LOW, the other is read with INPUT_PULLUP.
+const uint8_t BUTTON_GND_PIN = 32; // old WHITE1
+const uint8_t BUTTON_IN_PIN  = 33; // old WHITE2
 
-Encoder xAxis(RED1, RED2);
-Encoder yAxis(BROWN1, BROWN2);
+// Optional unused encoder/spinner pins, kept here for easy future use.
+// const uint8_t SPINNER_A_PIN = 27; // old ORAN1
+// const uint8_t SPINNER_B_PIN = 18; // old ORAN2
 
-// Optional encoders from the original sketch. These pins are also interrupt-capable.
-// Uncomment only if these are actually wired, otherwise they are not needed.
-// Encoder spinner(ORAN1, ORAN2);
-// Encoder button(WHITE1, WHITE2);
+const uint8_t LEFT_THROTTLE_DAC_PIN  = 25; // ESP32 DAC1
+const uint8_t RIGHT_THROTTLE_DAC_PIN = 26; // ESP32 DAC2
 
-constexpr float maxSteps = 68.0f;
-constexpr float originalUnoPwmVoltage = 5.0f;
-constexpr float esp32DacVoltage = 3.3f;
-constexpr int maxOriginalThrottleDuty = 150;  // original formula gives about 150 at maxSteps
-constexpr int resetError = 3;
+const uint8_t POWER_ON_PIN = 32;
 
-long positionX = -999;
-long positionY = -999;
+// ---------------- Encoder objects ----------------
+Encoder xAxis(X_ENC_A_PIN, X_ENC_B_PIN);
+Encoder yAxis(Y_ENC_A_PIN, Y_ENC_B_PIN);
+// Encoder spinner(SPINNER_A_PIN, SPINNER_B_PIN);
 
-float leftThrottlef = 0.0f;
-float rightThrottlef = 0.0f;
-long leftThrottle = 0;
-long rightThrottle = 0;
-float ratio = 0.0f;
-float speed = 0.0f;
+// -----------------------------------------------------------------------------
+// Important values
+// -----------------------------------------------------------------------------
 
-unsigned long start = 0;
+// Set these for your BLDC controller throttle input.
+const float DAC_SUPPLY_V       = 3.30f; // ESP32 DAC full-scale reference, approximately 3.3 V
+const float THROTTLE_OFF_V     = 0.00f; // used briefly before controller enable
+const float THROTTLE_IDLE_V    = 1.60f; // no-throttle voltage when joystick is centered
+const float THROTTLE_MAX_V     = 3.00f; // max throttle voltage
+
+const float maxSteps           = 68.0f;
+const float minToMaxTimeMs     = 500.0f; // ramp time from idle to max throttle
+const int resetError           = 3;      // encoder counts near center before auto-zero
+
+// Expo values. 0.0 = linear, higher = softer near center.
+const float turningExpo        = 0.30f;
+const float speedExpo          = 0.30f;
+
+// -----------------------------------------------------------------------------
+// Runtime variables
+// -----------------------------------------------------------------------------
+unsigned long loopTimerStartMs = 0;
+float timerAvg = 0.0f;
+unsigned long timerCount = 0;
+
+long positionX = -999999;
+long positionY = -999999;
+
+float targetLeftV = THROTTLE_IDLE_V;
+float targetRightV = THROTTLE_IDLE_V;
+float currentLeftV = THROTTLE_IDLE_V;
+float currentRightV = THROTTLE_IDLE_V;
+
+float leftThrottleRatio = 0.0f;
+float rightThrottleRatio = 0.0f;
+
+unsigned long lastRampTime = 0;
+unsigned long lastMoveTime = 0;
 bool lastMoveTrue = false;
 
-long calcY = 0;
-long calcX = 0;
+int oldButton = HIGH;
 
-static int clampInt(int value, int low, int high) {
-  if (value < low) return low;
-  if (value > high) return high;
-  return value;
+// -----------------------------------------------------------------------------
+// Helper functions
+// -----------------------------------------------------------------------------
+long capMaxSteps(long x, float maxS) {
+  long limit = lroundf(maxS);
+
+  if (x > limit)  return limit;
+  if (x < -limit) return -limit;
+  return x;
 }
 
-static float clampFloat(float value, float low, float high) {
-  if (value < low) return low;
-  if (value > high) return high;
-  return value;
+float applyExpo(float x, float expo) {
+  return (1.0f - expo) * x + expo * x * x * x;
 }
 
-// The Uno sketch used 8-bit PWM at 5 V. This converts the old 0-255, 5 V PWM
-// duty value into an ESP32 DAC value that produces approximately the same voltage.
-// Example: old duty 150 at 5 V ~= 2.94 V, so ESP32 DAC writes about 227/255.
-static void writeThrottleEquivalentVoltage(int pin, long originalUnoDuty) {
-  originalUnoDuty = clampInt((int)originalUnoDuty, 0, 255);
-
-  int dacValue = lroundf((float)originalUnoDuty * originalUnoPwmVoltage / esp32DacVoltage);
-  dacValue = clampInt(dacValue, 0, 255);
-
-  dacWrite(pin, (uint8_t)dacValue);
+float ratioToVoltage(float ratio) {
+  ratio = constrain(ratio, 0.0f, 1.0f);
+  return THROTTLE_IDLE_V + ratio * (THROTTLE_MAX_V - THROTTLE_IDLE_V);
 }
 
-static void writeBothThrottles(long leftDuty, long rightDuty) {
-  writeThrottleEquivalentVoltage(leftThrottlePin, leftDuty);
-  writeThrottleEquivalentVoltage(rightThrottlePin, rightDuty);
+int voltageToDacValue(float voltage) {
+  voltage = constrain(voltage, 0.0f, DAC_SUPPLY_V);
+  return lroundf((voltage / DAC_SUPPLY_V) * 255.0f);
 }
 
-void setup() {
-  if (debugMode) {
-    Serial.begin(115200);
-    delay(500);
-    Serial.println("ESP32 joystick controller starting...");
+void writeThrottleVolts(float leftV, float rightV) {
+  dacWrite(LEFT_THROTTLE_DAC_PIN, voltageToDacValue(leftV));
+  dacWrite(RIGHT_THROTTLE_DAC_PIN, voltageToDacValue(rightV));
+}
+
+float rampToward(float current, float target, float maxStep) {
+  if (target > current + maxStep) return current + maxStep;
+  if (target < current - maxStep) return current - maxStep;
+  return target;
+}
+
+void printDebug(long x, long y, float turningRatio, float speedRatio) {
+  if (!debugMode) return;
+
+  if (showXY) {
+    Serial.println();
+    Serial.print("X: ");
+    Serial.print(x);
+    Serial.print(", Y: ");
+    Serial.print(y);
   }
 
-  // Explicit pullups are useful for mechanical/open-collector encoder outputs.
-  // Do not feed 5 V encoder signals directly into ESP32 GPIOs.
-  pinMode(WHITE1, INPUT_PULLUP);
-  pinMode(WHITE2, INPUT_PULLUP);
-  pinMode(ORAN1, INPUT_PULLUP);
-  pinMode(ORAN2, INPUT_PULLUP);
-  pinMode(RED1, INPUT_PULLUP);
-  pinMode(RED2, INPUT_PULLUP);
-  pinMode(BROWN1, INPUT_PULLUP);
-  pinMode(BROWN2, INPUT_PULLUP);
+  if (showRatios) {
+    Serial.print(", Turn: ");
+    Serial.print(turningRatio, 3);
+    Serial.print(", Speed: ");
+    Serial.print(speedRatio, 3);
+    Serial.print(", L ratio: ");
+    Serial.print(leftThrottleRatio, 3);
+    Serial.print(", R ratio: ");
+    Serial.print(rightThrottleRatio, 3);
+  }
 
-  pinMode(leftThrottlePin, OUTPUT);
-  pinMode(rightThrottlePin, OUTPUT);
-  writeBothThrottles(0, 0);
-
-  pinMode(powerOnPin, OUTPUT);
-  digitalWrite(powerOnPin, HIGH);
+  if (showThrottle) {
+    Serial.print(", Target L V: ");
+    Serial.print(targetLeftV, 3);
+    Serial.print(", Target R V: ");
+    Serial.print(targetRightV, 3);
+    Serial.print(", DAC L: ");
+    Serial.print(voltageToDacValue(currentLeftV));
+    Serial.print(", DAC R: ");
+    Serial.print(voltageToDacValue(currentRightV));
+  }
 }
 
+// -----------------------------------------------------------------------------
+// Setup
+// -----------------------------------------------------------------------------
+void setup() {
+  if (debugMode || enableTimer) {
+    Serial.begin(115200);
+    delay(500);
+    Serial.println("ESP32 joystick throttle controller starting...");
+  }
+
+  pinMode(BUTTON_GND_PIN, OUTPUT);
+  digitalWrite(BUTTON_GND_PIN, LOW);
+  pinMode(BUTTON_IN_PIN, INPUT_PULLUP);
+
+  pinMode(POWER_ON_PIN, OUTPUT);
+  digitalWrite(POWER_ON_PIN, LOW);
+
+  // Start with outputs safe before enabling the controller.
+  writeThrottleVolts(THROTTLE_OFF_V, THROTTLE_OFF_V);
+  delay(200);
+
+  // Then set no-throttle/idle voltage and enable controller.
+  currentLeftV = THROTTLE_IDLE_V;
+  currentRightV = THROTTLE_IDLE_V;
+  targetLeftV = THROTTLE_IDLE_V;
+  targetRightV = THROTTLE_IDLE_V;
+  writeThrottleVolts(currentLeftV, currentRightV);
+
+  digitalWrite(POWER_ON_PIN, HIGH);
+
+  lastRampTime = millis();
+  lastMoveTime = millis();
+}
+
+// -----------------------------------------------------------------------------
+// Main loop
+// -----------------------------------------------------------------------------
 void loop() {
-  long newX = xAxis.read();
-  long newY = yAxis.read();
+  if (enableTimer) {
+    loopTimerStartMs = millis();
+  }
+
+  long rawX = xAxis.read();
+  long rawY = yAxis.read();
+
+  long newX = capMaxSteps(rawX, maxSteps);
+  long newY = capMaxSteps(rawY, maxSteps);
+
+  // If the encoder count went outside the allowed range, write the capped value
+  // back to the encoder object so it does not keep accumulating error.
+  if (newX != rawX) xAxis.write(newX);
+  if (newY != rawY) yAxis.write(newY);
+
+  // Optional button reset.
+  // Uncomment this if the white button should reset the joystick center.
+  /*
+  int button = digitalRead(BUTTON_IN_PIN);
+  if (button != oldButton && button == HIGH) {
+    xAxis.write(0);
+    yAxis.write(0);
+    newX = 0;
+    newY = 0;
+    Serial.println("Button reset");
+  }
+  oldButton = button;
+  */
 
   if (newX != positionX || newY != positionY) {
-    if (debugMode) {
-      Serial.print("X: ");
-      Serial.print(newX);
-      Serial.print(", Y: ");
-      Serial.print(newY);
-    }
-
     positionX = newX;
     positionY = newY;
-
-    calcY = -newY;
-    calcX = newX;
-
-    if (calcY < 0) {
-      calcY = 0;
-      calcX = 0;
-    }
-
-    ratio = fabsf((float)calcX / maxSteps);
-    ratio = clampFloat(ratio, 0.0f, 1.0f);
-
-    // Preserves the original sketch's throttle curve:
-    // y = 0 -> 90, y = 68 -> 150, before steering reduction.
-    speed = (15.0f * (float)calcY + 1530.0f) / 17.0f;
-    speed = clampFloat(speed, 0.0f, (float)maxOriginalThrottleDuty);
-
-    if (calcX < 0) {
-      leftThrottlef = speed;
-      rightThrottlef = (1.0f - ratio) * speed;
-    } else {
-      leftThrottlef = (1.0f - ratio) * speed;
-      rightThrottlef = speed;
-    }
-
-    leftThrottle = clampInt(lroundf(leftThrottlef), 0, maxOriginalThrottleDuty);
-    rightThrottle = clampInt(lroundf(rightThrottlef), 0, maxOriginalThrottleDuty);
-
-    writeBothThrottles(leftThrottle, rightThrottle);
-
-    if (debugMode) {
-      Serial.print(", ThrottleL old-duty: ");
-      Serial.print(leftThrottle);
-      Serial.print(", ThrottleR old-duty: ");
-      Serial.println(rightThrottle);
-    }
-
-    start = millis();
+    lastMoveTime = millis();
     lastMoveTrue = true;
   }
 
+  long calcX = newX;
+  long calcY = -newY; // keep original direction from Uno code
+
+  // No reverse in this version. Pulling joystick backward gives zero speed.
+  if (calcY < 0) {
+    calcY = 0;
+  }
+
+  // Y controls speed, X controls left/right mixing.
+  float turningRatio = (float)calcX / maxSteps;
+  float speedRatio   = (float)calcY / maxSteps;
+
+  turningRatio = applyExpo(turningRatio, turningExpo);
+  speedRatio   = applyExpo(speedRatio, speedExpo);
+
+  turningRatio = constrain(turningRatio, -1.0f, 1.0f);
+  speedRatio   = constrain(speedRatio, 0.0f, 1.0f);
+
+  // ---------------------------------------------------------------------------
+  // Finished throttleRatio section
+  // ---------------------------------------------------------------------------
+  // This keeps the original intended tank/differential mixer:
+  //   left  = speed + turn
+  //   right = speed - turn
+  // Then it normalizes if either side is above 1.0.
+  // Negative values are clamped to 0 because this version has no reverse output.
+  leftThrottleRatio  = speedRatio + turningRatio;
+  rightThrottleRatio = speedRatio - turningRatio;
+
+  float maxMag = fmaxf(fabsf(leftThrottleRatio), fabsf(rightThrottleRatio));
+  if (maxMag > 1.0f) {
+    leftThrottleRatio  /= maxMag;
+    rightThrottleRatio /= maxMag;
+  }
+
+  leftThrottleRatio  = constrain(leftThrottleRatio, 0.0f, 1.0f);
+  rightThrottleRatio = constrain(rightThrottleRatio, 0.0f, 1.0f);
+
+  targetLeftV  = ratioToVoltage(leftThrottleRatio);
+  targetRightV = ratioToVoltage(rightThrottleRatio);
+
+  printDebug(calcX, calcY, turningRatio, speedRatio);
+
   // If controller is still for 3 seconds near the center, recalibrate position to 0.
-  if (((millis() - start) > 3000UL) &&
+  if (((millis() - lastMoveTime) > 3000) &&
       (-resetError <= newX) && (newX <= resetError) &&
-      (-resetError < newY) && (newY < resetError) &&
+      (-resetError <= newY) && (newY <= resetError) &&
       lastMoveTrue) {
 
     xAxis.write(0);
     yAxis.write(0);
-    // spinner.write(0);
+    positionX = 0;
+    positionY = 0;
+    lastMoveTrue = false;
+    lastMoveTime = millis();
 
-    newX = 0;
-    newY = 0;
-    writeBothThrottles(0, 0);
+    targetLeftV = THROTTLE_IDLE_V;
+    targetRightV = THROTTLE_IDLE_V;
 
     if (debugMode) {
-      Serial.println("Reset axes to zero");
+      Serial.println("\nReset axes to zero");
     }
+  }
 
-    start = millis();
-    lastMoveTrue = false;
+  // Ramp the actual output voltage toward the target every loop.
+  unsigned long now = millis();
+  float dtMs = (float)(now - lastRampTime);
+  lastRampTime = now;
+
+  float throttleRangeV = THROTTLE_MAX_V - THROTTLE_IDLE_V;
+  float maxStepV = (throttleRangeV / minToMaxTimeMs) * dtMs;
+
+  currentLeftV  = rampToward(currentLeftV, targetLeftV, maxStepV);
+  currentRightV = rampToward(currentRightV, targetRightV, maxStepV);
+
+  writeThrottleVolts(currentLeftV, currentRightV);
+
+  if (enableTimer) {
+    unsigned long sample = millis() - loopTimerStartMs;
+    timerCount++;
+    timerAvg += ((float)sample - timerAvg) / (float)timerCount;
+
+    if (debugMode) {
+      Serial.print("\nTimer AVG ms: ");
+      Serial.println(timerAvg, 3);
+    }
   }
 }
